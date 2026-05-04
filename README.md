@@ -1,54 +1,48 @@
-# Puzzle Courier
+# Laser Courier
 
-Puzzle Courier is a command-line grid puzzle game written in F# for .NET 10. The player controls a courier in a small warehouse and pushes boxes onto goal tiles.
+Laser Courier is a terminal puzzle game written in F# for .NET 10. Move the cursor, rotate mirrors, and route the laser beam so every target is energized.
 
 ## Requirements
 
 - .NET 10 SDK
 
-Check your SDK version with:
-
-```bash
-dotnet --version
-```
-
 ## How to Run
 
-From the repository root:
+From this repository root:
 
 ```bash
 dotnet run
 ```
 
-On Windows, you may also run:
+Start from a specific level:
+
+```bash
+dotnet run -- --level 4
+```
+
+Helper scripts are also provided:
+
+```bash
+./run.sh
+```
 
 ```bat
 run.bat
 ```
 
-On macOS or Linux:
-
-```bash
-chmod +x run.sh
-./run.sh
-```
-
-## How to Build
-
-```bash
-dotnet build
-```
-
 ## Controls
 
-| Input | Action |
+| Key | Action |
 | --- | --- |
-| `W` or `w` | Move up |
-| `A` or `a` | Move left |
-| `S` or `s` | Move down |
-| `D` or `d` | Move right |
-| `R` or `r` | Reset the current level |
-| `Q` or `q` | Quit immediately |
+| `W` | Move up |
+| `A` | Move left |
+| `S` | Move down |
+| `D` | Move right |
+| `E` | Rotate the mirror under the cursor |
+| `R` | Reset the current level |
+| `Q` | Quit |
+
+Commands are case-insensitive.
 
 ## Symbols
 
@@ -56,128 +50,39 @@ dotnet build
 | --- | --- |
 | `#` | Wall |
 | `.` | Empty floor |
-| `P` | Player |
-| `B` | Box |
-| `G` | Goal tile |
-| `*` | Box on a goal tile |
-| `+` | Player on a goal tile |
+| `@` | Player cursor |
+| `>`, `<`, `^`, `v` | Laser source direction |
+| `/`, `\` | Mirrors |
+| `T` | Target not energized |
+| `X` | Energized target |
+| `*` | Beam path |
 
-## Game Rules
+## Objective
 
-The game contains exactly five fixed levels. A level is cleared when every box is on a goal tile. The move counter increases only when the player's position changes. Invalid input, wall collisions, and blocked box pushes do not increase the move counter.
+Each level has one laser source and one or more targets. The laser travels in a straight line until it hits a wall or mirror. Mirrors reflect the beam. Clear a level by rotating mirrors until every target is energized.
 
-If the player moves into a box, the box is pushed only when the cell behind it is empty floor or a goal tile. Boxes cannot be pushed into walls or other boxes.
-
-Each level has a short name. When a level is cleared, the game prints that level's move count. After level 5, the final victory screen prints the total moves across all cleared levels.
-
-## Example Level 1 Solution
-
-Level 1 can be solved with:
-
-```text
-D
-D
-```
-
-## Full Game Solution For Review
-
-The following input sequence clears all five levels:
-
-```text
-D
-D
-D
-D
-D
-S
-S
-S
-D
-D
-D
-D
-W
-W
-W
-A
-A
-A
-S
-D
-D
-D
-S
-S
-D
-D
-D
-S
-S
-D
-D
-D
-A
-A
-S
-D
-D
-A
-A
-S
-D
-D
-```
-
-This review solution finishes the game in 42 total moves.
-
-## Manual Testing Checklist
-
-Use these short scenarios to verify the proposal requirements.
-
-| Scenario | Input sequence | Expected result |
-| --- | --- | --- |
-| Invalid input | `x` | The game prints an invalid input message, the board stays the same, and `Moves` remains `0`. |
-| Wall collision | `W` | The player does not move and `Moves` remains `0`. |
-| Box blocked by wall | `S D D W` from Level 1 start | The box is not pushed into the top wall and the final blocked move does not increase `Moves`. |
-| Reset | `D R` from Level 1 start | Level 1 returns to its initial board and `Moves` becomes `0`. |
-| Quit | `Q` | The game prints `Goodbye.` and exits. |
-| Box blocked by another box | Clear Level 1 with `D D`, clear Level 2 with `D D D S`, then enter `D` in Level 3 | The game prints that the box cannot be pushed into another box, and `Moves` remains `0`. |
-| Player on goal | On Level 3, enter `S D` | The player is displayed as `+`. |
+The game includes six fixed levels, per-level move and rotation counters, total counters after victory, reset support, and level selection with `--level N`.
 
 ## Project Structure
 
-```text
-PuzzleCourier.fsproj
-README.md
-requirements.md
-run.bat
-run.sh
-PuzzleCourier/
-  Types.fs
-  Levels.fs
-  Game.fs
-  Renderer.fs
-Program.fs
-```
-
-## Module Overview
-
-| Module | Responsibility |
+| Path | Purpose |
 | --- | --- |
-| `Types` | Core types for positions, directions, tiles, commands, and game state |
-| `Levels` | Fixed level layouts, level parsing, and level loading |
-| `Game` | Command parsing, movement rules, box pushing, reset, and clear checks |
-| `Renderer` | Terminal rendering for boards, messages, title, and input prompt |
-| `Program` | Main game loop, level transitions, quit handling, and final victory flow |
+| `LaserCourier.fsproj` | F# .NET 10 project file |
+| `Program.fs` | Entry point, argument parsing, and main game loop |
+| `LaserCourier/Types.fs` | Core game types |
+| `LaserCourier/Levels.fs` | Fixed level definitions and level parser |
+| `LaserCourier/Beam.fs` | Beam tracing and target energizing logic |
+| `LaserCourier/Game.fs` | Player commands, movement, mirror rotation, reset |
+| `LaserCourier/Renderer.fs` | Terminal rendering |
+| `requirements.md` | Source requirements document |
+| `LaserCourier_Requirements.pdf` | PDF requirements document |
 
 ## Requirement Changes
 
-No requirement changes after proposal submission.
+This repository originally explored an earlier `Puzzle Courier` box-pushing idea. Before finalizing the revised proposal, the project was changed to `Laser Courier` to make the core mechanic more distinctive while keeping the implementation deterministic and testable.
 
-The implemented levels are fixed and solvable. The exact level layouts are implementation details and remain within the proposal requirement that the game contains exactly five fixed levels.
+For the revised submission, `requirements.md` and `LaserCourier_Requirements.pdf` are the authoritative requirements. The current implementation follows those requirements.
 
 ## LLM Usage
 
-An LLM was used to compare project ideas, draft the requirements document, plan the implementation structure, and assist with F# implementation. The requirements, level layouts, code, and README were manually reviewed.
-
-Manual changes were needed to keep the project scope small, simplify the later levels so reviewers can clear the game quickly, and fix F# array indexing syntax during build verification. The main point the LLM could not do correctly without manual checking was guaranteeing that all proposed puzzle levels were solvable and appropriate for review.
+An LLM was used to brainstorm project ideas, compare scope risks, draft requirements, implement the F# code, and review the project critically. The project was manually tested and revised through repeated review. The main parts that required manual correction were level design, keeping the requirements concrete enough for grading, and avoiding unnecessary scope that would make final implementation risky.

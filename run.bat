@@ -1,2 +1,2 @@
 @echo off
-dotnet run
+dotnet run --project LaserCourier.fsproj -- %*

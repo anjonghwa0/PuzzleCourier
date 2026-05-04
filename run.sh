@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-dotnet run
+dotnet run --project LaserCourier.fsproj -- "$@"
