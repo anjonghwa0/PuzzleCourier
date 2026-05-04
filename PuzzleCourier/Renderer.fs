@@ -15,7 +15,7 @@ module Renderer =
             | Goal -> 'G'
 
     let render state =
-        printfn "Level %d" (state.LevelIndex + 1)
+        printfn "Level %d - %s" (state.LevelIndex + 1) (Levels.levelName state.LevelIndex)
         printfn "Moves: %d" state.Moves
         printfn ""
 
@@ -29,7 +29,11 @@ module Renderer =
         printfn ""
 
     let renderTitle () =
-        printfn "=== Puzzle Courier ==="
+        printfn "========================================"
+        printfn "           PUZZLE COURIER"
+        printfn "========================================"
+        printfn "Deliver every box to a goal tile."
+        printfn ""
 
     let renderMessage message =
         printfn "%s" message

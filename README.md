@@ -68,6 +68,8 @@ The game contains exactly five fixed levels. A level is cleared when every box i
 
 If the player moves into a box, the box is pushed only when the cell behind it is empty floor or a goal tile. Boxes cannot be pushed into walls or other boxes.
 
+Each level has a short name. When a level is cleared, the game prints that level's move count. After level 5, the final victory screen prints the total moves across all cleared levels.
+
 ## Example Level 1 Solution
 
 Level 1 can be solved with:
@@ -125,6 +127,8 @@ S
 D
 D
 ```
+
+This review solution finishes the game in 42 total moves.
 
 ## Manual Testing Checklist
 

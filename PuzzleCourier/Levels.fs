@@ -33,7 +33,20 @@ module Levels =
               "#.........#"
               "###########" |] |]
 
+    let private names =
+        [| "First Delivery"
+           "Loading Dock"
+           "Traffic Jam"
+           "Warehouse Loop"
+           "Final Dispatch" |]
+
     let levelCount = rawLevels.Length
+
+    let levelName levelIndex =
+        if levelIndex < 0 || levelIndex >= levelCount then
+            failwithf "Level %d does not exist." (levelIndex + 1)
+
+        names.[levelIndex]
 
     let private parseLevel levelIndex (rows: string array) =
         if rows.Length = 0 then

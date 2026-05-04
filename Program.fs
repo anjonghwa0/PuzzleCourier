@@ -1,7 +1,7 @@
 open System
 open PuzzleCourier
 
-let rec private gameLoop state =
+let rec private gameLoop totalMoves state =
     Renderer.prompt ()
     let input = Console.ReadLine()
 
@@ -13,7 +13,7 @@ let rec private gameLoop state =
         | None ->
             Renderer.renderMessage "Invalid input. Use W, A, S, D, R, or Q."
             Renderer.render state
-            gameLoop state
+            gameLoop totalMoves state
         | Some Quit ->
             Renderer.renderMessage "Goodbye."
             0
@@ -21,7 +21,7 @@ let rec private gameLoop state =
             let resetState = Game.resetLevel state
             Renderer.renderMessage "Level reset."
             Renderer.render resetState
-            gameLoop resetState
+            gameLoop totalMoves resetState
         | Some(Move direction) ->
             let nextState, message = Game.tryMove state direction
 
@@ -29,21 +29,31 @@ let rec private gameLoop state =
             Renderer.render nextState
 
             if Game.isLevelCleared nextState then
-                Renderer.renderMessage (sprintf "Level %d cleared!" (nextState.LevelIndex + 1))
+                let updatedTotalMoves = totalMoves + nextState.Moves
+
+                Renderer.renderMessage (
+                    sprintf
+                        "Level %d - %s cleared in %d moves."
+                        (nextState.LevelIndex + 1)
+                        (Levels.levelName nextState.LevelIndex)
+                        nextState.Moves
+                )
 
                 if nextState.LevelIndex + 1 = Levels.levelCount then
                     Renderer.renderMessage "All deliveries complete. You win!"
+                    Renderer.renderMessage (sprintf "Total moves: %d" updatedTotalMoves)
+                    Renderer.renderMessage "Thanks for playing Puzzle Courier."
                     0
                 else
                     let nextLevel = Levels.loadLevel (nextState.LevelIndex + 1)
                     Renderer.render nextLevel
-                    gameLoop nextLevel
+                    gameLoop updatedTotalMoves nextLevel
             else
-                gameLoop nextState
+                gameLoop totalMoves nextState
 
 [<EntryPoint>]
 let main _ =
     Renderer.renderTitle ()
     let initialState = Levels.loadLevel 0
     Renderer.render initialState
-    gameLoop initialState
+    gameLoop 0 initialState
