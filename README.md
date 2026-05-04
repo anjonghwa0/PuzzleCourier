@@ -89,12 +89,35 @@ D
 D
 S
 S
-D
-D
 S
 D
 D
+D
+D
+W
+W
+W
+A
+A
+A
+S
+D
 ```
+
+## Manual Testing Checklist
+
+Use these short scenarios to verify the proposal requirements.
+
+| Scenario | Input sequence | Expected result |
+| --- | --- | --- |
+| Invalid input | `x` | The game prints an invalid input message, the board stays the same, and `Moves` remains `0`. |
+| Wall collision | `W` | The player does not move and `Moves` remains `0`. |
+| Box blocked by wall | `S D D W` from Level 1 start | The box is not pushed into the top wall and the final blocked move does not increase `Moves`. |
+| Reset | `D R` from Level 1 start | Level 1 returns to its initial board and `Moves` becomes `0`. |
+| Quit | `Q` | The game prints `Goodbye.` and exits. |
+| Box blocked outside board | Clear Level 1 with `D D`, then enter `D D S D D D D` in Level 2 | The last `D` prints that the box cannot be pushed outside the board, and `Moves` remains `6`. |
+| Box blocked by another box | Clear Level 1 with `D D`, clear Level 2 with `D D D S`, then enter `D` in Level 3 | The game prints that the box cannot be pushed into another box, and `Moves` remains `0`. |
+| Player on goal | On Level 3, enter `S D` | The player is displayed as `+`. |
 
 ## Project Structure
 
