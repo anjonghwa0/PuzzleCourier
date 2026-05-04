@@ -33,7 +33,7 @@ module Game =
         let target = Position.add boxPosition offset
 
         match tileAt state target with
-        | None -> state, Some "Blocked: the box cannot be pushed outside the board."
+        | None -> state, Some "Blocked: the box cannot be pushed into a wall."
         | Some Wall -> state, Some "Blocked: the box cannot be pushed into a wall."
         | Some (Floor | Goal) when state.Boxes.Contains target ->
             state, Some "Blocked: the box cannot be pushed into another box."
@@ -54,7 +54,7 @@ module Game =
         let target = Position.add state.Player offset
 
         match tileAt state target with
-        | None -> state, Some "Blocked: you cannot move outside the board."
+        | None -> state, Some "Blocked: wall."
         | Some Wall -> state, Some "Blocked: wall."
         | Some(Floor | Goal) when state.Boxes.Contains target -> tryPushBox state target direction
         | Some(Floor | Goal) -> movePlayer state target, None

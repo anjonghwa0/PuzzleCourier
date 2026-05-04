@@ -64,9 +64,9 @@ dotnet build
 
 ## Game Rules
 
-The game contains exactly three fixed levels. A level is cleared when every box is on a goal tile. The move counter increases only when the player's position changes. Invalid input, wall collisions, and blocked box pushes do not increase the move counter.
+The game contains exactly five fixed levels. A level is cleared when every box is on a goal tile. The move counter increases only when the player's position changes. Invalid input, wall collisions, and blocked box pushes do not increase the move counter.
 
-If the player moves into a box, the box is pushed only when the cell behind it is empty floor or a goal tile. Boxes cannot be pushed into walls, other boxes, or outside the board.
+If the player moves into a box, the box is pushed only when the cell behind it is empty floor or a goal tile. Boxes cannot be pushed into walls or other boxes.
 
 ## Example Level 1 Solution
 
@@ -79,7 +79,7 @@ D
 
 ## Full Game Solution For Review
 
-The following input sequence clears all three levels:
+The following input sequence clears all five levels:
 
 ```text
 D
@@ -101,6 +101,28 @@ A
 A
 A
 S
+D
+D
+D
+S
+S
+D
+D
+D
+S
+S
+D
+D
+D
+A
+A
+S
+D
+D
+A
+A
+S
+D
 D
 ```
 
@@ -115,7 +137,6 @@ Use these short scenarios to verify the proposal requirements.
 | Box blocked by wall | `S D D W` from Level 1 start | The box is not pushed into the top wall and the final blocked move does not increase `Moves`. |
 | Reset | `D R` from Level 1 start | Level 1 returns to its initial board and `Moves` becomes `0`. |
 | Quit | `Q` | The game prints `Goodbye.` and exits. |
-| Box blocked outside board | Clear Level 1 with `D D`, then enter `D D S D D D D` in Level 2 | The last `D` prints that the box cannot be pushed outside the board, and `Moves` remains `6`. |
 | Box blocked by another box | Clear Level 1 with `D D`, clear Level 2 with `D D D S`, then enter `D` in Level 3 | The game prints that the box cannot be pushed into another box, and `Moves` remains `0`. |
 | Player on goal | On Level 3, enter `S D` | The player is displayed as `+`. |
 
@@ -149,7 +170,7 @@ Program.fs
 
 No requirement changes after proposal submission.
 
-The implemented levels are fixed and solvable. The exact level layouts are implementation details and remain within the proposal requirement that the game contains exactly three fixed levels.
+The implemented levels are fixed and solvable. The exact level layouts are implementation details and remain within the proposal requirement that the game contains exactly five fixed levels.
 
 ## LLM Usage
 
