@@ -33,6 +33,12 @@ chmod +x run.sh
 ./run.sh
 ```
 
+## How to Build
+
+```bash
+dotnet build
+```
+
 ## Controls
 
 | Input | Action |
@@ -105,6 +111,16 @@ PuzzleCourier/
   Renderer.fs
 Program.fs
 ```
+
+## Module Overview
+
+| Module | Responsibility |
+| --- | --- |
+| `Types` | Core types for positions, directions, tiles, commands, and game state |
+| `Levels` | Fixed level layouts, level parsing, and level loading |
+| `Game` | Command parsing, movement rules, box pushing, reset, and clear checks |
+| `Renderer` | Terminal rendering for boards, messages, title, and input prompt |
+| `Program` | Main game loop, level transitions, quit handling, and final victory flow |
 
 ## Requirement Changes
 
